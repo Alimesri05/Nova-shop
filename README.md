@@ -139,7 +139,7 @@ nova-shop/
 
 1. **Clone / کلون کن**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/nova-shop.git
+   git clone https://github.com/Alimesri05/nova-shop.git
    cd nova-shop
    ```
 
@@ -182,7 +182,7 @@ nova-shop/
 ### GitHub Pages
 1. Repository → **Settings** → **Pages**
 2. Source: `main` / `root`
-3. Save → Site live at `https://YOUR_USERNAME.github.io/nova-shop/`
+3. Save → Site live at `https://Alimesri05.github.io/nova-shop/`
 
 ### Netlify / Vercel
 - Drag & drop the folder
