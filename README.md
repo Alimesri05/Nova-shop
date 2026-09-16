@@ -127,7 +127,6 @@ nova-shop/
 │   ├── p1-1.jpg ... p24-3.jpg
 │   └── ...
 │
-├── .gitignore
 └── README.md
 ```
 
@@ -175,23 +174,7 @@ nova-shop/
 | `Esc` | Close modal / بستن پنجره |
 | `←` / `→` | Navigate images / عکس‌های بعدی و قبلی |
 
----
-
-## Deployment / انتشار
-
-### GitHub Pages
-1. Repository → **Settings** → **Pages**
-2. Source: `main` / `root`
-3. Save → Site live at `https://Alimesri05.github.io/nova-shop/`
-
-### Netlify / Vercel
-- Drag & drop the folder
-- یا از طریق GitHub برای آپدیت خودکار
-
-### Traditional Hosting / هاست معمولی
-- همه فایل‌ها رو از طریق FTP آپلود کن
-
----
+------
 
 ## Roadmap / مسیر آینده
 
