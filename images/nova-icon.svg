@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="novaBg" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="45%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="novaShine" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="nStroke" x1="32" y1="28" x2="96" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0f9ff"/>
+    </linearGradient>
+    <filter id="novaShadow" x="0" y="2" width="128" height="128" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1e3a8a" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#novaBg)"/>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#novaShine)"/>
+  <rect x="9" y="9" width="110" height="110" rx="27" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
+
+  <!-- Glowing Modern 'N' Monogram -->
+  <g filter="url(#novaShadow)">
+    <!-- Left vertical bar -->
+    <rect x="28" y="32" width="16" height="64" rx="8" fill="url(#nStroke)"/>
+    <!-- Diagonal connector -->
+    <path d="M36 34 L92 94 C95.5 97.7 100 95.3 100 90 L100 80 L44 20 C40.5 16.3 36 18.7 36 24 Z" fill="url(#nStroke)"/>
+    <!-- Right vertical bar -->
+    <rect x="84" y="32" width="16" height="64" rx="8" fill="url(#nStroke)"/>
+
+    <!-- Radiant Nova Sparkle (Top Right) -->
+    <path d="M100 16 C100 24 105 29 113 29 C105 29 100 34 100 42 C100 34 95 29 87 29 C95 29 100 24 100 16 Z" fill="#ffffff"/>
+    <circle cx="100" cy="29" r="3" fill="#67e8f9"/>
+  </g>
+</svg>

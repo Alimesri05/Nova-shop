@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA — فروشگاه اینترنتی | خرید موبایل، لپ‌تاپ و کالای دیجیتال</title>
+<meta name="description" content="NOVA — فروشگاه اینترنتی کالای دیجیتال: گوشی، لپ‌تاپ، هدفون، ساعت هوشمند و لوازم جانبی با ضمانت اصالت و ارسال سریع">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="images/nova-icon.svg">
+<link rel="alternate icon" type="image/png" sizes="32x32" href="images/nova-icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/nova-icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/nova-icon-180.png">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Vazirmatn', 'system-ui', 'sans-serif'] },
+        colors: {
+          nova:   { 50:'#eef4ff',100:'#d9e5ff',200:'#bcd2ff',300:'#8eb4ff',400:'#598bff',
+                    500:'#3363ff',600:'#1d40f5',700:'#162fe1',800:'#1929b6',900:'#1b2a8f' },
+          accent: { 400:'#22d3ee', 500:'#06b6d4', 600:'#0891b2' }
+        },
+        boxShadow: { glow: '0 0 40px -10px rgba(51,99,255,.55)' }
+      }
+    }
+  }
+  if (localStorage.getItem('nova-theme') === 'dark' ||
+     (!localStorage.getItem('nova-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+</head>
+
+<body class="bg-[var(--bg)] text-[var(--text)] antialiased selection:bg-nova-500 selection:text-white">
+
+<!-- ===== Preloader ===== -->
+<div id="preloader" class="preloader">
+  <div class="preloader__box">
+    <div class="preloader__ring"></div>
+    <div class="relative z-10 flex flex-col items-center">
+      <img src="images/nova-icon.svg" alt="NOVA" class="w-12 h-12 animate-pulse drop-shadow-md">
+      <span class="preloader__logo mt-2">NOVA</span>
+    </div>
+  </div>
+  <p class="preloader__txt">در حال آماده‌سازی فروشگاه…</p>
+</div>
+
+<!-- ===== Scroll Progress ===== -->
+<div id="scrollProgress" class="scroll-progress"></div>
+
+<!-- ===== Decorative Background ===== -->
+<div class="bg-mesh" aria-hidden="true">
+  <span class="blob blob--1"></span>
+  <span class="blob blob--2"></span>
+  <span class="blob blob--3"></span>
+</div>
+
+<!-- ===== 1) BENEFIT BAR ===== -->
+<div class="topbar">
+  <div class="topbar__inner">
+    <p class="flex items-center gap-2"><i class="fa-solid fa-truck-fast"></i> ارسال رایگان برای خریدهای بالای ۵ میلیون تومان</p>
+    <div class="topbar__links">
+      <a href="#" id="trackOrderLink"><i class="fa-solid fa-location-crosshairs"></i> پیگیری سفارش</a>
+      <a href="tel:+982188001234" class="hide-m" dir="ltr"><i class="fa-solid fa-phone"></i> 88001234-021</a>
+      <a href="#faq" class="hide-m">سوالات متداول</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2) SHOP HEADER (sticky) ===== -->
+<header id="header" class="shop-header">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <!-- main row -->
+    <div class="shop-head__main">
+      <button id="burger" class="icon-btn lg:hidden" aria-label="باز کردن منو" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <a href="#hero" class="flex items-center gap-2.5 shrink-0 group" aria-label="صفحه اصلی فروشگاه نوا">
+        <span class="logo-mark"><img src="images/nova-icon.svg" alt="NOVA"></span>
+        <span class="leading-none">
+          <span class="block text-xl font-extrabold tracking-tight">NOVA</span>
+          <span class="hidden sm:block text-[10px] tracking-[.25em] text-[var(--muted)] uppercase font-semibold">shop</span>
+        </span>
+      </a>
+
+      <!-- big search (desktop) -->
+      <div class="head-search hidden md:block">
+        <div class="head-search__box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" type="text" placeholder="جستجو در نوا… نام کالا، برند یا دسته" autocomplete="off">
+          <button id="searchGo" class="head-search__btn">جستجو</button>
+        </div>
+        <div id="headSuggest" class="head-suggest hidden"></div>
+      </div>
+
+      <!-- actions -->
+      <div class="flex items-center gap-2 mr-auto md:mr-0">
+        <button id="themeToggle" class="icon-btn" aria-label="تغییر تم" title="تغییر تم">
+          <i class="fa-solid fa-sun icon-sun"></i>
+          <i class="fa-solid fa-moon icon-moon"></i>
+        </button>
+        <button id="wishOpen" class="icon-btn relative" aria-label="علاقه‌مندی‌ها" title="علاقه‌مندی‌ها">
+          <i class="fa-regular fa-heart"></i>
+          <span id="wishCount" class="badge-dot">0</span>
+        </button>
+        <button id="cartOpen" class="icon-btn relative" aria-label="سبد خرید" title="سبد خرید">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cartCount" class="cart-badge">0</span>
+        </button>
+        <button id="userOpen" class="account-btn" aria-label="حساب کاربری">
+          <i class="fa-regular fa-user"></i>
+          <span id="accountTxt" class="hidden sm:inline">ورود / ثبت‌نام</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- search row (mobile) -->
+    <div class="head-search md:hidden pb-3">
+      <div class="head-search__box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="searchInputM" type="text" placeholder="جستجو در نوا…" autocomplete="off">
+        <button id="searchGoM" class="head-search__btn">جستجو</button>
+      </div>
+      <div id="headSuggestM" class="head-suggest hidden"></div>
+    </div>
+
+    <!-- category nav row (desktop) -->
+    <nav class="catnav hidden lg:flex" aria-label="ناوبری فروشگاه">
+      <button id="megaBtn" class="mega-btn" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i> دسته‌بندی کالاها <i class="fa-solid fa-chevron-down text-xs"></i>
+      </button>
+      <span class="catnav__sep"></span>
+      <a href="#amazing" class="nav-link" data-nav><i class="fa-solid fa-bolt text-rose-500"></i> شگفت‌انگیزها</a>
+      <a href="#top-products" class="nav-link" data-nav><i class="fa-solid fa-fire text-orange-500"></i> پرفروش‌ترین‌ها</a>
+      <a href="#products" class="nav-link" data-nav data-offlink><i class="fa-solid fa-percent text-emerald-500"></i> تخفیف‌دارها</a>
+      <a href="#brands" class="nav-link" data-nav>برندها</a>
+      <a href="#blog" class="nav-link" data-nav>مجله نوا</a>
+      <a href="#contact" class="nav-link" data-nav>تماس با ما</a>
+      <a href="#hero" class="nav-link mr-auto hidden" data-nav>خانه</a>
+    </nav>
+  </div>
+
+  <!-- ===== 3) MEGA MENU ===== -->
+  <div id="megaMenu" class="mega">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mega__panel">
+        <div class="mega__cats" id="megaCats"></div>
+        <div class="mega__sub" id="megaSub"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Mobile Menu ===== -->
+<div id="menuBackdrop" class="backdrop"></div>
+<aside id="mobileMenu" class="side-panel" role="dialog" aria-label="منوی موبایل">
+  <div class="side-panel__head">
+    <div class="flex items-center gap-2.5">
+      <span class="logo-mark !w-8 !h-8"><img src="images/nova-icon.svg" alt="NOVA"></span>
+      <span class="font-extrabold text-base tracking-tight">NOVA</span>
+      <span class="text-[10px] uppercase font-bold text-[var(--muted)]">shop</span>
+    </div>
+    <button id="menuClose" class="icon-btn" aria-label="بستن منو"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <nav class="p-4 flex flex-col gap-1 side-panel__body">
+    <a href="#hero"     class="m-link" data-nav><i class="fa-solid fa-house w-5"></i> خانه</a>
+    <a href="#amazing"  class="m-link" data-nav><i class="fa-solid fa-bolt w-5"></i> پیشنهاد شگفت‌انگیز</a>
+    <a href="#cats"     class="m-link" data-nav><i class="fa-solid fa-layer-group w-5"></i> دسته‌بندی‌ها</a>
+    <a href="#products" class="m-link" data-nav><i class="fa-solid fa-grip w-5"></i> فروشگاه</a>
+    <a href="#brands"   class="m-link" data-nav><i class="fa-solid fa-copyright w-5"></i> برندها</a>
+    <a href="#blog"     class="m-link" data-nav><i class="fa-solid fa-newspaper w-5"></i> مجله نوا</a>
+    <a href="#faq"      class="m-link" data-nav><i class="fa-solid fa-circle-question w-5"></i> سوالات متداول</a>
+    <a href="#contact"  class="m-link" data-nav><i class="fa-solid fa-envelope w-5"></i> تماس</a>
+    <div class="divider"></div>
+    <button class="m-link w-full" id="mAccount"><i class="fa-regular fa-user w-5"></i> حساب کاربری</button>
+    <button class="m-link w-full" id="mTrack"><i class="fa-solid fa-location-crosshairs w-5"></i> پیگیری سفارش</button>
+    <button class="m-link w-full" id="mWish"><i class="fa-regular fa-heart w-5"></i> علاقه‌مندی‌ها</button>
+  </nav>
+  <div class="mt-auto p-4 border-t border-[var(--border)]">
+    <div class="flex items-center gap-3 text-sm text-[var(--muted)]">
+      <i class="fa-brands fa-instagram text-lg"></i>
+      <i class="fa-brands fa-telegram text-lg"></i>
+      <i class="fa-brands fa-x-twitter text-lg"></i>
+    </div>
+    <p class="mt-3 text-xs text-[var(--muted)]">© NOVA 1405</p>
+  </div>
+</aside>
+
+<!-- ===== Bottom nav (mobile) ===== -->
+<nav id="bottomNav" class="bottom-nav" aria-label="ناوبری موبایل">
+  <button id="bnHome"><i class="fa-solid fa-house"></i><span>خانه</span></button>
+  <button id="bnCats"><i class="fa-solid fa-layer-group"></i><span>دسته‌ها</span></button>
+  <button id="bnCart" class="relative"><i class="fa-solid fa-cart-shopping"></i><span>سبد</span><b id="mCartCount" class="badge-dot">0</b></button>
+  <button id="bnWish" class="relative"><i class="fa-regular fa-heart"></i><span>علاقه‌ها</span><b id="mWishCount" class="badge-dot">0</b></button>
+  <button id="bnAccount"><i class="fa-regular fa-user"></i><span>حساب</span></button>
+</nav>
+
+<!-- ===== 4) HERO : slider + side banners ===== -->
+<section id="hero" class="pt-5 sm:pt-7">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-3 gap-4">
+
+      <!-- main slider -->
+      <div class="lg:col-span-2 hero-slider" id="heroSlides">
+        <div class="hero-slide active">
+          <img src="images/nova-hero.jpg" alt="ویترین نوا">
+          <div class="hero-slide__body">
+            <span class="chip !bg-white/15 !text-white !border-white/25"><i class="fa-solid fa-sparkles"></i> نسل جدید خرید آنلاین</span>
+            <h1 class="hero-slide__title">ویترینی برای <span class="text-cyan-300">آینده</span><br>با <span id="typewriter" class="text-cyan-300"></span><span class="caret !text-white">|</span></h1>
+            <div class="flex gap-3 mt-5">
+              <button id="ctaBtn" class="btn-primary ripple !bg-white !text-nova-600"><i class="fa-solid fa-rocket"></i><span>مشاهده محصولات</span></button>
+              <a href="#amazing" class="btn-ghost ripple !bg-white/15 !text-white !border-white/30"><i class="fa-solid fa-bolt"></i><span>شگفت‌انگیزها</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide">
+          <img src="images/nova-sale.jpg" alt="جشنواره فروش">
+          <div class="hero-slide__body">
+            <span class="chip !bg-white/15 !text-white !border-white/25"><i class="fa-solid fa-bolt"></i> فروش شگفت‌انگیز</span>
+            <h1 class="hero-slide__title">جشنواره <span class="text-amber-300">پاییزه نوا</span><br>تا ۴۰٪ تخفیف واقعی</h1>
+            <div class="countdown !justify-content-start mt-4" id="heroCountdown" dir="rtl" aria-label="شمارش معکوس جشنواره">
+              <div class="cd-cell !bg-white/15 !border-white/25"><b data-cd="s">۰۰</b><span class="!text-white/80">ثانیه</span></div><span class="cd-sep !text-white">:</span>
+              <div class="cd-cell !bg-white/15 !border-white/25"><b data-cd="m">۰۰</b><span class="!text-white/80">دقیقه</span></div><span class="cd-sep !text-white">:</span>
+              <div class="cd-cell !bg-white/15 !border-white/25"><b data-cd="h">۰۰</b><span class="!text-white/80">ساعت</span></div><span class="cd-sep !text-white">:</span>
+              <div class="cd-cell !bg-white/15 !border-white/25"><b data-cd="d">۰۰</b><span class="!text-white/80">روز</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide">
+          <img src="images/nova-game.jpg" alt="دنیای گیمینگ">
+          <div class="hero-slide__body">
+            <span class="chip !bg-white/15 !text-white !border-white/25"><i class="fa-solid fa-gamepad"></i> کالکشن جدید</span>
+            <h1 class="hero-slide__title">دنیای <span class="text-fuchsia-300">گیمینگ</span><br>حرفه‌ای شو!</h1>
+            <div class="flex gap-3 mt-5">
+              <button class="btn-primary ripple !bg-white !text-nova-600" data-goto-cat="لپ‌تاپ"><i class="fa-solid fa-gamepad"></i><span>دنیای گیمینگ</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="hero-arrows">
+          <button id="heroPrev" aria-label="قبلی"><i class="fa-solid fa-chevron-right"></i></button>
+          <button id="heroNext" aria-label="بعدی"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+        <div class="hero-dots hero-dots--over" id="heroDots"></div>
+      </div>
+
+      <!-- side banners -->
+      <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
+        <div class="side-banner" data-catgo="هدفون">
+          <img src="images/nova-bn1.jpg" alt="هدفون‌ها">
+          <div class="side-banner__txt"><b>دنیای صدا 🎧</b><span>هدفون و هندزفری با تخفیف →</span></div>
+        </div>
+        <div class="side-banner" data-catgo="ساعت هوشمند">
+          <img src="images/nova-bn2.jpg" alt="ساعت هوشمند">
+          <div class="side-banner__txt"><b>ساعت‌های هوشمند ⌚</b><span>جدیدترین مدل‌ها →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5) CATEGORY CIRCLES ===== -->
+<section id="cats" class="pt-9">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="sec-head reveal">
+      <div>
+        <span class="chip"><i class="fa-solid fa-layer-group"></i> دسته‌بندی‌ها</span>
+        <h2>خرید بر اساس <span class="grad-text">دسته‌بندی</span></h2>
+      </div>
+      <a href="#products" class="sec-link">همه محصولات <i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div id="catCircles" class="cat-circles reveal"></div>
+  </div>
+</section>
+
+<!-- ===== 6) AMAZING OFFERS ===== -->
+<section id="amazing" class="py-6 sm:py-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="amazing">
+      <div class="grid lg:grid-cols-12 gap-6 items-center relative z-10 min-w-0 w-full">
+        <div class="lg:col-span-3 amazing__side text-center lg:text-right shrink-0">
+          <h2 class="text-2xl sm:text-3xl font-black flex items-center justify-center lg:justify-start gap-2">
+            <i class="fa-solid fa-bolt"></i> شگفت‌انگیزها
+          </h2>
+          <p class="mt-1.5 text-white/85 text-xs sm:text-sm leading-6">تخفیف‌های محدود با موجودی کم؛ زود باش تموم می‌شه!</p>
+          <div class="amazing__timer justify-center lg:justify-start mt-3" id="amazingTimer" dir="rtl" aria-label="شمارش معکوس شگفت‌انگیز">
+            <div class="cd-cell"><b data-cd="s">۰۰</b><span>ثانیه</span></div>
+            <div class="cd-cell"><b data-cd="m">۰۰</b><span>دقیقه</span></div>
+            <div class="cd-cell"><b data-cd="h">۰۰</b><span>ساعت</span></div>
+          </div>
+          <button class="mt-4 inline-flex items-center gap-2 bg-white text-rose-600 font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-2xl hover:-translate-y-0.5 transition shadow-sm" id="amazingAll">
+            مشاهده همه <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+        <div class="lg:col-span-9 min-w-0 w-full overflow-hidden">
+          <div id="amazingRow" class="h-scroll"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7) TOP PRODUCTS TABS ===== -->
+<section id="top-products" class="py-6">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="sec-head reveal">
+      <div>
+        <span class="chip"><i class="fa-solid fa-crown"></i> پیشنهاد نوا</span>
+        <h2>منتخب <span class="grad-text">مشتریان</span></h2>
+      </div>
+      <div class="home-tabs" id="homeTabs">
+        <button data-htab="best" class="on"><i class="fa-solid fa-fire"></i> پرفروش‌ترین</button>
+        <button data-htab="new"><i class="fa-solid fa-sparkles"></i> جدیدترین</button>
+        <button data-htab="off"><i class="fa-solid fa-percent"></i> بیشترین تخفیف</button>
+      </div>
+    </div>
+    <div id="homeTabRow" class="h-scroll reveal"></div>
+  </div>
+</section>
+
+<!-- ===== 8) PROMO BANNERS ===== -->
+<section class="py-6">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 gap-4 reveal">
+      <div class="promo-banner" data-goto-cat="لپ‌تاپ">
+        <img src="images/nova-pb1.jpg" alt="لپ‌تاپ">
+        <div class="promo-banner__txt"><b>فروش ویژه لپ‌تاپ 💻</b><span>تا ۱۵٪ تخفیف + ارسال رایگان</span></div>
+      </div>
+      <div class="promo-banner" data-offlink>
+        <img src="images/nova-pb2.jpg" alt="تخفیف">
+        <div class="promo-banner__txt"><b>همه تخفیف‌دارها 🏷️</b><span>یه‌جا ببین و مقایسه کن</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9) BRANDS ===== -->
+<section id="brands" class="py-6">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="sec-head reveal">
+      <div>
+        <span class="chip"><i class="fa-solid fa-copyright"></i> برندها</span>
+        <h2>خرید از <span class="grad-text">برند محبوبت</span></h2>
+      </div>
+    </div>
+    <div id="brandStrip" class="brand-strip reveal"></div>
+  </div>
+</section>
+
+<!-- ===== 10) SHOP : sidebar + grid ===== -->
+<section id="products" class="py-10 relative">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+    <!-- breadcrumb -->
+    <nav class="breadcrumb reveal" aria-label="مسیر">
+      <a href="#hero">خانه</a><i class="fa-solid fa-chevron-left"></i>
+      <a href="#products">فروشگاه</a><i class="fa-solid fa-chevron-left"></i>
+      <span id="crumbCat">همه کالاها</span>
+    </nav>
+
+    <div class="shop-layout">
+      <!-- Sidebar filters -->
+      <div id="filterBackdrop" class="backdrop"></div>
+      <aside id="shopSidebar" class="shop-sidebar">
+        <div class="shop-sidebar__head">
+          <b><i class="fa-solid fa-sliders"></i> فیلترها</b>
+          <button type="button" id="filterClose" class="icon-btn lg:hidden" aria-label="بستن فیلترها"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="filter-block">
+          <label class="filter-label"><i class="fa-solid fa-layer-group"></i> دسته‌بندی</label>
+          <div id="categoryBar" class="cat-list">
+            <button class="cat-btn is-active" data-cat="all"><i class="fa-solid fa-border-all"></i> همه کالاها</button>
+            <button class="cat-btn" data-cat="گوشی"><i class="fa-solid fa-mobile-screen"></i> گوشی</button>
+            <button class="cat-btn" data-cat="لپ‌تاپ"><i class="fa-solid fa-laptop"></i> لپ‌تاپ</button>
+            <button class="cat-btn" data-cat="هدفون"><i class="fa-solid fa-headphones"></i> هدفون</button>
+            <button class="cat-btn" data-cat="ساعت هوشمند"><i class="fa-solid fa-clock"></i> ساعت هوشمند</button>
+            <button class="cat-btn" data-cat="تبلت"><i class="fa-solid fa-tablet-screen-button"></i> تبلت</button>
+            <button class="cat-btn" data-cat="لوازم جانبی"><i class="fa-solid fa-plug"></i> لوازم جانبی</button>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <label class="filter-label"><i class="fa-solid fa-copyright"></i> برند</label>
+          <div id="brandBar" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="filter-block">
+          <div class="flex items-center justify-between mb-3">
+            <label class="filter-label !mb-0"><i class="fa-solid fa-coins text-nova-500"></i> محدوده قیمت</label>
+            <button type="button" id="resetPriceBtn" class="text-[11px] text-rose-500 hover:underline transition hidden">بازنشانی قیمت</button>
+          </div>
+
+          <!-- Price Tier Buttons -->
+          <div id="priceTierList" class="price-tier-list">
+            <button type="button" class="price-tier-btn active" data-min="0" data-max="120000000">
+              <span class="price-tier-radio"></span>
+              <span class="price-tier-text">همه قیمت‌ها</span>
+              <span class="price-tier-sub">۲۴ کالا</span>
+            </button>
+            <button type="button" class="price-tier-btn" data-min="0" data-max="5000000">
+              <span class="price-tier-radio"></span>
+              <span class="price-tier-text">زیر ۵ میلیون تومان</span>
+              <span class="price-tier-badge">اقتصادی</span>
+            </button>
+            <button type="button" class="price-tier-btn" data-min="5000000" data-max="20000000">
+              <span class="price-tier-radio"></span>
+              <span class="price-tier-text">۵ تا ۲۰ میلیون تومان</span>
+              <span class="price-tier-badge">میان‌رده</span>
+            </button>
+            <button type="button" class="price-tier-btn" data-min="20000000" data-max="50000000">
+              <span class="price-tier-radio"></span>
+              <span class="price-tier-text">۲۰ تا ۵۰ میلیون تومان</span>
+              <span class="price-tier-badge">نیمه‌حرفه‌ای</span>
+            </button>
+            <button type="button" class="price-tier-btn" data-min="50000000" data-max="120000000">
+              <span class="price-tier-radio"></span>
+              <span class="price-tier-text">بالای ۵۰ میلیون تومان</span>
+              <span class="price-tier-badge">پرچمدار</span>
+            </button>
+          </div>
+
+          <!-- Custom Price Input Boxes -->
+          <div class="mt-4 pt-3 border-t border-[var(--border)]">
+            <p class="text-[11.5px] font-bold text-[var(--muted)] mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-pen text-[10px]"></i> قیمت دلخواه (تومان):
+            </p>
+            <div class="space-y-2">
+              <div class="price-box-card">
+                <span class="price-box-lbl">از:</span>
+                <input id="priceMinInput" type="text" inputmode="numeric" class="price-box-inp" value="۰" placeholder="۰">
+                <span class="price-box-unit">تومان</span>
+              </div>
+              <div class="price-box-card">
+                <span class="price-box-lbl">تا:</span>
+                <input id="priceMaxInput" type="text" inputmode="numeric" class="price-box-inp" value="۱۲۰,۰۰۰,۰۰۰" placeholder="۱۲۰,۰۰۰,۰۰۰">
+                <span class="price-box-unit">تومان</span>
+              </div>
+              <button type="button" id="applyPriceBtn" class="btn-primary ripple !w-full !py-2 !text-xs !rounded-xl justify-center mt-1">
+                <i class="fa-solid fa-check"></i> اعمال بازه قیمت
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <label class="filter-label"><i class="fa-solid fa-star"></i> حداقل امتیاز</label>
+          <div class="flex items-center gap-3">
+            <div id="ratingFilter" class="star-input" role="group" aria-label="فیلتر امتیاز">
+              <button data-star="1" aria-label="۱ ستاره"><i class="fa-solid fa-star"></i></button>
+              <button data-star="2" aria-label="۲ ستاره"><i class="fa-solid fa-star"></i></button>
+              <button data-star="3" aria-label="۳ ستاره"><i class="fa-solid fa-star"></i></button>
+              <button data-star="4" aria-label="۴ ستاره"><i class="fa-solid fa-star"></i></button>
+              <button data-star="5" aria-label="۵ ستاره"><i class="fa-solid fa-star"></i></button>
+            </div>
+            <button id="clearRating" class="text-xs text-[var(--muted)] hover:text-rose-500 transition">پاک کردن</button>
+          </div>
+        </div>
+
+        <div class="filter-block space-y-3">
+          <label class="flex items-center justify-between gap-3 text-sm font-bold cursor-pointer">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-percent text-rose-500"></i> فقط تخفیف‌دارها</span>
+            <span class="switch"><input type="checkbox" id="onlyOff"><i></i></span>
+          </label>
+          <label class="flex items-center justify-between gap-3 text-sm font-bold cursor-pointer">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-box-open text-emerald-500"></i> فقط کالاهای موجود</span>
+            <span class="switch"><input type="checkbox" id="onlyStock" checked><i></i></span>
+          </label>
+        </div>
+
+        <div class="filter-block">
+          <button id="resetFilters" class="btn-ghost w-full justify-center !py-3 text-sm">
+            <i class="fa-solid fa-arrows-rotate"></i><span>حذف همه فیلترها</span>
+          </button>
+        </div>
+
+        <!-- Mobile Apply Action -->
+        <div class="lg:hidden mt-4 pt-3 border-t border-[var(--border)]">
+          <button type="button" id="filterApplyMobile" class="btn-primary ripple w-full justify-center !py-2.5 !text-sm">
+            <i class="fa-solid fa-check"></i> مشاهده نتایج فیلتر
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="shop-main">
+        <div class="shop-toolbar reveal">
+          <button id="filterToggle" class="btn-ghost !py-2.5 !px-4 text-sm lg:hidden">
+            <i class="fa-solid fa-sliders"></i> فیلترها
+          </button>
+          <span id="resultCount" class="result-pill">۰ محصول</span>
+          <div class="mr-auto flex items-center gap-2">
+            <select id="sortSelect" class="input !w-auto !py-2.5 text-[13px]">
+              <option value="default">پیش‌فرض</option>
+              <option value="price-asc">ارزان‌ترین</option>
+              <option value="price-desc">گران‌ترین</option>
+              <option value="rate-desc">بیشترین امتیاز</option>
+              <option value="off-desc">بیشترین تخفیف</option>
+              <option value="sold-desc">پرفروش‌ترین</option>
+              <option value="new-desc">جدیدترین</option>
+            </select>
+            <div class="view-toggle" id="viewToggle">
+              <button data-view="grid" class="on" title="نمای جدولی"><i class="fa-solid fa-border-all"></i></button>
+              <button data-view="list" title="نمای لیستی"><i class="fa-solid fa-list"></i></button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div id="productGrid" class="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-3"></div>
+        <div id="pagination" class="pagination"></div>
+
+        <div id="emptyState" class="hidden text-center py-20">
+          <div class="text-6xl text-[var(--muted)] opacity-40"><i class="fa-regular fa-face-frown"></i></div>
+          <p class="mt-5 text-lg font-bold">محصولی یافت نشد!</p>
+          <p class="mt-2 text-[var(--muted)]">فیلترها را تغییر دهید یا بازنشانی کنید.</p>
+          <button onclick="document.getElementById('resetFilters').click()" class="btn-primary ripple mt-6 mx-auto">حذف فیلترها</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11) TRUST BADGES ===== -->
+<section class="pb-4">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="feat-strip reveal">
+      <div class="feat-box"><span class="fi"><i class="fa-solid fa-truck-fast"></i></span><div><b>ارسال سریع سراسری</b><span>تحویل ۲۴ تا ۷۲ ساعته</span></div></div>
+      <div class="feat-box"><span class="fi"><i class="fa-solid fa-shield-halved"></i></span><div><b>ضمانت اصالت</b><span>۷ روز مهلت مرجوعی</span></div></div>
+      <div class="feat-box"><span class="fi"><i class="fa-solid fa-credit-card"></i></span><div><b>پرداخت امن</b><span>درگاه بانکی معتبر</span></div></div>
+      <div class="feat-box"><span class="fi"><i class="fa-solid fa-headset"></i></span><div><b>پشتیبانی ۲۴ ساعته</b><span>پاسخگویی تلفنی و چت</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12) TESTIMONIALS ===== -->
+<section id="testimonials" class="py-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <span class="chip"><i class="fa-solid fa-comments"></i> نظر مشتریان</span>
+      <h2 class="mt-5 text-3xl sm:text-4xl font-black">اعتماد شما، <span class="grad-text">افتخار ما</span></h2>
+    </div>
+    <div class="mt-8 reveal">
+      <div id="testiBox"></div>
+      <div class="testi-nav">
+        <button id="testiPrev" class="icon-btn"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="hero-dots !mt-0 items-center" id="testiDots"></div>
+        <button id="testiNext" class="icon-btn"><i class="fa-solid fa-chevron-left"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 13) BLOG ===== -->
+<section id="blog" class="py-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="sec-head reveal">
+      <div>
+        <span class="chip"><i class="fa-solid fa-newspaper"></i> مجله نوا</span>
+        <h2>آخرین <span class="grad-text">مقالات و راهنماها</span></h2>
+      </div>
+      <a href="#" class="sec-link" onclick="return false">آرشیو مجله <i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div id="blogGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 reveal"></div>
+  </div>
+</section>
+
+<!-- ===== 14) FAQ ===== -->
+<section id="faq" class="py-8">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center reveal">
+      <span class="chip"><i class="fa-solid fa-circle-question"></i> سوالات متداول</span>
+      <h2 class="mt-5 text-3xl sm:text-4xl font-black">سوال داری؟ <span class="grad-text">جوابش اینجاست</span></h2>
+    </div>
+    <div id="faqList" class="mt-8 reveal"></div>
+  </div>
+</section>
+
+<!-- ===== 15) NEWSLETTER ===== -->
+<section class="py-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="news-box reveal">
+      <h2 class="text-2xl sm:text-3xl font-black relative z-10">عضو خبرنامه نوا شو، ۱۰٪ تخفیف بگیر! 🎁</h2>
+      <p class="mt-3 text-white/85 text-sm relative z-10">کد تخفیف <b dir="ltr">WELCOME10</b> بلافاصله بعد از عضویت برایت پیامک می‌شود.</p>
+      <form id="newsForm" class="news-form" novalidate>
+        <input id="newsInput" type="email" class="input flex-1" placeholder="آدرس ایمیل شما" dir="ltr">
+        <button type="submit"><i class="fa-solid fa-gift"></i> دریافت تخفیف</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 16) CONTACT (compact) ===== -->
+<section id="contact" class="py-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="glass-card p-6 sm:p-8 reveal">
+      <div class="grid lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-2">
+          <span class="chip"><i class="fa-solid fa-headset"></i> پشتیبانی نوا</span>
+          <h2 class="mt-4 text-2xl sm:text-3xl font-black">همیشه <span class="grad-text">کنارتی</span></h2>
+          <div class="mt-5 space-y-3 text-sm">
+            <p class="flex items-center gap-2"><span class="contact-ico !w-9 !h-9"><i class="fa-solid fa-phone"></i></span><span dir="ltr">021-88001234</span></p>
+            <p class="flex items-center gap-2"><span class="contact-ico !w-9 !h-9"><i class="fa-solid fa-envelope"></i></span><span dir="ltr">hello@nova-shop.ir</span></p>
+            <p class="flex items-center gap-2"><span class="contact-ico !w-9 !h-9"><i class="fa-solid fa-location-dot"></i></span>تهران، ولیعصر، برج نوا، طبقه ۱۲</p>
+            <p class="flex items-center gap-2"><span class="contact-ico !w-9 !h-9"><i class="fa-solid fa-clock"></i></span>شنبه تا پنجشنبه ۹ تا ۲۱</p>
+          </div>
+        </div>
+        <form id="contactForm" class="lg:col-span-3" novalidate>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="lbl" for="cName">نام و نام خانوادگی</label>
+              <input id="cName" class="input" type="text" placeholder="مثلاً: سارا محمدی"><small class="err"></small></div>
+            <div><label class="lbl" for="cEmail">ایمیل</label>
+              <input id="cEmail" class="input" type="email" placeholder="you@mail.com" dir="ltr"><small class="err"></small></div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4 mt-4">
+            <div><label class="lbl" for="cPhone">شماره تماس (اختیاری)</label>
+              <input id="cPhone" class="input" type="tel" placeholder="0912…" dir="ltr"><small class="err"></small></div>
+            <div><label class="lbl" for="cSubject">موضوع</label>
+              <select id="cSubject" class="input">
+                <option>مشاوره خرید</option><option>پیگیری سفارش</option><option>مرجوعی کالا</option><option>همکاری تجاری</option><option>سایر</option>
+              </select></div>
+          </div>
+          <div class="mt-4"><label class="lbl" for="cMsg">پیام</label>
+            <textarea id="cMsg" rows="4" class="input resize-none" placeholder="پیام خود را بنویسید…"></textarea><small class="err"></small></div>
+          <button type="submit" class="btn-primary ripple mt-5"><i class="fa-solid fa-paper-plane"></i><span>ارسال پیام</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 17) FOOTER ===== -->
+<footer class="footer">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-8">
+    
+    <!-- 1. Top Header Bar: Logo, Support Phone, Back to Top -->
+    <div class="footer-top flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-[var(--border)]">
+      <div class="flex items-center gap-3.5">
+        <span class="logo-mark"><img src="images/nova-icon.svg" alt="NOVA"></span>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-tight">NOVA</span>
+            <span class="text-xs text-[var(--muted)]">| فروشگاه اینترنتی کالای دیجیتال</span>
+          </div>
+          <p class="text-xs text-[var(--muted)] mt-1 hidden sm:block">تلفن پشتیبانی: <span dir="ltr" class="font-bold text-[var(--text)]">۰۲۱-۸۸۰۰۱۲۳۴</span> | ۷ روز هفته، ۲۴ ساعته پاسخگوی شما هستیم</p>
+        </div>
+      </div>
+      <a href="#hero" class="sec-link !m-0 !py-2.5 !px-4 text-xs font-bold flex items-center gap-2 border border-[var(--border)] rounded-xl hover:bg-[var(--surface-2)] transition">
+        <span>بازگشت به بالا</span>
+        <i class="fa-solid fa-chevron-up text-xs"></i>
+      </a>
+    </div>
+
+    <!-- 2. Main 4-Column Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 py-10 border-b border-[var(--border)]">
+      
+      <!-- Col 1: با نوا -->
+      <div>
+        <h4 class="font-extrabold text-sm text-[var(--text)] mb-4">با نوا</h4>
+        <ul class="space-y-3 text-xs text-[var(--muted)]">
+          <li><a href="#contact" class="hover:text-nova-500 transition">تماس با ما</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">درباره فروشگاه نوا</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">فرصت‌های شغلی و استخدام</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">همکاری با فروشندگان (فروشنده شو)</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">گزارش تخلف و بازخورد</a></li>
+          <li><a href="#blog" class="hover:text-nova-500 transition">اتاق خبر و مجله تخصصی</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 2: خدمات مشتریان -->
+      <div>
+        <h4 class="font-extrabold text-sm text-[var(--text)] mb-4">خدمات مشتریان</h4>
+        <ul class="space-y-3 text-xs text-[var(--muted)]">
+          <li><a href="#faq" class="hover:text-nova-500 transition">پاسخ به پرسش‌های متداول</a></li>
+          <li><a href="#" id="fTrack" class="hover:text-nova-500 transition">پیگیری و وضعیت سفارش</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">رویه‌های بازگرداندن کالا</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">شرایط و قوانین استفاده</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">حریم خصوصی و امنیت کاربران</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">گزارش باگ و خطای امنیتی</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: راهنمای خرید -->
+      <div>
+        <h4 class="font-extrabold text-sm text-[var(--text)] mb-4">راهنمای خرید از نوا</h4>
+        <ul class="space-y-3 text-xs text-[var(--muted)]">
+          <li><a href="#products" class="hover:text-nova-500 transition">کاتالوگ همه کالاها</a></li>
+          <li><a href="#amazing" class="hover:text-nova-500 transition">پیشنهادهای شگفت‌انگیز روز</a></li>
+          <li><a href="#top-products" class="hover:text-nova-500 transition">پرفروش‌ترین‌های دیجیتال</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">نحوه ثبت سفارش و خرید</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">رویه‌ها و روش‌های ارسال</a></li>
+          <li><a href="#" onclick="return false" class="hover:text-nova-500 transition">شیوه‌های پرداخت اینترنتی</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: همراه ما باشید! + خبرنامه -->
+      <div>
+        <h4 class="font-extrabold text-sm text-[var(--text)] mb-3">همراه ما باشید!</h4>
+        <div class="flex items-center gap-2 mb-6">
+          <a href="#" class="soc" aria-label="اینستاگرام" title="اینستاگرام"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="soc" aria-label="تلگرام" title="تلگرام"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" class="soc" aria-label="لینکدین" title="لینکدین"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="soc" aria-label="یوتیوب" title="یوتیوب"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="soc" aria-label="ایکس / توییتر" title="ایکس / توییتر"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+
+        <h4 class="font-bold text-xs text-[var(--text)] mb-2">با ثبت ایمیل، از جدیدترین تخفیف‌ها باخبر شوید:</h4>
+        <div class="flex gap-2">
+          <input id="footNews" type="email" placeholder="ایمیل شما (name@example.com)" class="input flex-1 !text-xs !py-2.5" dir="ltr">
+          <button class="btn-primary ripple !px-4 !text-xs font-bold" id="footNewsBtn" aria-label="ثبت ایمیل">ثبت</button>
+        </div>
+        <p class="mt-3 text-[11px] text-[var(--muted)]">کدهای تخفیف و پیشنهادهای اختصاصی برای اعضای خبرنامه ارسال می‌شود.</p>
+      </div>
+    </div>
+
+    <!-- 3. Store SEO Paragraph & Trust Badges Row (اینماد، ساماندهی، اتحادیه، شاپرک) -->
+    <div class="py-8 border-b border-[var(--border)] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+      <div class="lg:col-span-2 space-y-2">
+        <h3 class="font-bold text-sm text-[var(--text)]">فروشگاه اینترنتی کالای دیجیتال نوا، تجربه خریدی هوشمند و مطمئن</h3>
+        <p class="text-xs text-[var(--muted)] leading-relaxed text-justify">
+          فروشگاه آنلاین نوا (NOVA) مرجع تخصصی معرفی، بررسی و خرید آنلاین جدیدترین محصولات دیجیتال از جمله گوشی‌های هوشمند، لپ‌تاپ، تبلت، ساعت‌های هوشمند، کنسول بازی و لوازم جانبی از برترین برندهای بین‌المللی است. ارسال سریع سراسری، تضمین اصالت ۱۰۰٪ کالا، ۷ روز مهلت بازگشت وجه و پشتیبانی شبانه‌روزی، تعهد همیشگی نوا به خریداران محترم است.
+        </p>
+      </div>
+      <div class="flex items-center justify-center lg:justify-end gap-3 flex-wrap">
+        <div class="trust-badge-card" title="نماد اعتماد الکترونیکی (اینماد)">
+          <i class="fa-solid fa-award text-amber-500 text-2xl mb-1"></i>
+          <span class="text-[11px] font-bold">نماد اعتماد</span>
+          <span class="text-[10px] text-[var(--muted)]">الکترونیکی (اینماد)</span>
+        </div>
+        <div class="trust-badge-card" title="نشان ملی ثبت رسانه‌های دیجیتال">
+          <i class="fa-solid fa-certificate text-nova-500 text-2xl mb-1"></i>
+          <span class="text-[11px] font-bold">ساماندهی</span>
+          <span class="text-[10px] text-[var(--muted)]">رسانه‌های دیجیتال</span>
+        </div>
+        <div class="trust-badge-card" title="عضو اتحادیه کشوری کسب‌وکارهای مجازی">
+          <i class="fa-solid fa-building-shield text-blue-500 text-2xl mb-1"></i>
+          <span class="text-[11px] font-bold">اتحادیه کشوری</span>
+          <span class="text-[10px] text-[var(--muted)]">کسب‌وکار مجازی</span>
+        </div>
+        <div class="trust-badge-card" title="پرداخت امن شبکه شاپرک و شتاب">
+          <i class="fa-solid fa-shield-halved text-emerald-500 text-2xl mb-1"></i>
+          <span class="text-[11px] font-bold">پرداخت امن</span>
+          <span class="text-[10px] text-[var(--muted)]">شبکه شاپرک</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Copyright Bar & Iranian Payment Network Trust -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
+      <p class="text-center sm:text-right">
+        برای استفاده از مطالب نوا، داشتن «هدف غیرتجاری» و ذکر «منبع» کافیست. تمامی حقوق این وب‌سایت متعلق به شرکت نوآوران هوشمند نوا (فروشگاه آنلاین NOVA) است.
+      </p>
+      <div class="flex items-center gap-2 flex-shrink-0 text-[11px] font-medium text-[var(--muted)] bg-[var(--surface-2)] px-3.5 py-1.5 rounded-xl border border-[var(--border)]">
+        <i class="fa-solid fa-shield-halved text-emerald-500 text-sm"></i>
+        <span>درگاه پرداخت متصل به شبکه شتاب و شاپرک</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ===== Floating buttons ===== -->
+<div class="float-btns">
+  <button id="backTop" class="back-top" aria-label="بازگشت به بالا"><i class="fa-solid fa-arrow-up"></i></button>
+  <button id="chatBtn" class="chat-btn" aria-label="گفتگو با پشتیبانی" title="گفتگو با پشتیبانی"><i class="fa-solid fa-headset"></i></button>
+</div>
+
+<!-- ===== Compare floating bar ===== -->
+<div id="cmpFloat" class="cmp-float">
+  <div class="cmp-thumbs" id="cmpThumbs"></div>
+  <span id="cmpTxt">مقایسه (۰)</span>
+  <button id="cmpOpenBtn" class="btn-primary ripple !py-2.5 !px-5 !text-[13px]">مقایسه کن</button>
+  <button id="cmpClear" class="text-[var(--muted)] hover:text-rose-500" title="حذف همه"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<!-- ===== CART PANEL ===== -->
+<div id="cartBackdrop" class="backdrop"></div>
+<aside id="cartPanel" class="side-panel side-panel--wide" role="dialog" aria-label="سبد خرید">
+  <div class="side-panel__head">
+    <span class="font-extrabold text-lg flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-nova-500"></i> سبد خرید</span>
+    <button id="cartClose" class="icon-btn" aria-label="بستن سبد"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="cartItems" class="side-panel__body"></div>
+  <div class="side-panel__foot">
+    <div id="shipProgress" class="ship-progress">
+      <p class="text-xs font-bold" id="shipTxt">…</p>
+      <div class="bar"><i id="shipBar" style="width:0%"></i></div>
+    </div>
+    <div class="coupon-row">
+      <input id="couponInput" class="input" placeholder="کد تخفیف (مثلاً WELCOME10)" dir="ltr">
+      <button id="couponBtn" class="btn-ghost !py-2 !px-4 text-sm whitespace-nowrap">اعمال</button>
+    </div>
+    <div class="mt-3">
+      <div class="totals-row"><span>تعداد اقلام</span><span id="cartQty">۰</span></div>
+      <div class="totals-row"><span>جمع کالاها</span><span id="cartSubtotal">۰ تومان</span></div>
+      <div class="totals-row disc hidden" id="discRow"><span>تخفیف <b id="discCode"></b></span><span id="discVal"></span></div>
+      <div class="totals-row"><span>هزینه ارسال</span><span id="shipCost">—</span></div>
+      <div class="totals-row grand"><span>مبلغ قابل پرداخت</span><span id="cartTotal" class="text-nova-500">۰ تومان</span></div>
+    </div>
+    <button id="checkoutBtn" class="btn-primary ripple w-full mt-4 justify-center">
+      <i class="fa-solid fa-credit-card"></i><span>تکمیل خرید</span>
+    </button>
+    <button id="clearCart" class="btn-ghost w-full mt-2 justify-center !py-2.5 text-sm">
+      <i class="fa-solid fa-trash"></i><span>خالی کردن سبد</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ===== WISHLIST PANEL ===== -->
+<div id="wishBackdrop" class="backdrop"></div>
+<aside id="wishPanel" class="side-panel side-panel--wide" role="dialog" aria-label="علاقه‌مندی‌ها">
+  <div class="side-panel__head">
+    <span class="font-extrabold text-lg flex items-center gap-2"><i class="fa-solid fa-heart text-rose-500"></i> علاقه‌مندی‌ها</span>
+    <button id="wishClose" class="icon-btn" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="wishItems" class="side-panel__body"></div>
+  <div class="side-panel__foot">
+    <button id="wishToCart" class="btn-primary ripple w-full justify-center"><i class="fa-solid fa-cart-plus"></i><span>افزودن همه به سبد</span></button>
+  </div>
+</aside>
+
+<!-- ===== QUICK VIEW MODAL ===== -->
+<div id="modalBackdrop" class="backdrop"></div>
+<div id="quickModal" class="modal" role="dialog" aria-modal="true" aria-label="مشاهده سریع محصول">
+  <div class="modal__box modal__box--lg">
+    <button id="modalClose" class="modal__close" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div class="grid md:grid-cols-2">
+      <div class="modal__media">
+        <div id="mvSlider" class="slider"></div>
+        <button id="mvPrev" class="slider__nav slider__nav--prev" aria-label="تصویر قبلی"><i class="fa-solid fa-chevron-right"></i></button>
+        <button id="mvNext" class="slider__nav slider__nav--next" aria-label="تصویر بعدی"><i class="fa-solid fa-chevron-left"></i></button>
+        <div id="mvDots" class="slider__dots"></div>
+        <span id="mvBadge" class="modal__badge"></span>
+      </div>
+      <div class="modal__info">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span id="mvCat" class="chip !text-xs"></span>
+          <span id="mvSku" class="text-xs text-[var(--muted)]" dir="ltr"></span>
+        </div>
+        <h3 id="mvTitle" class="mt-3 text-2xl font-black leading-snug"></h3>
+        <div id="mvStars" class="mt-2 flex items-center gap-1.5 text-amber-400"></div>
+        <p id="mvStockLine" class="card__stock ok"></p>
+        <div class="mt-4">
+          <p class="lbl">رنگ:</p>
+          <div id="mvColors" class="flex gap-2.5"></div>
+        </div>
+        <div class="mt-5 flex items-end gap-3 flex-wrap">
+          <span id="mvPrice" class="text-3xl font-black text-nova-500"></span>
+          <span id="mvOld" class="text-sm line-through text-[var(--muted)]"></span>
+          <span id="mvOff" class="off-badge"></span>
+        </div>
+        <div class="mt-5 flex gap-3 items-center">
+          <div class="qty !p-1.5">
+            <button id="mvDec" aria-label="کاهش"><i class="fa-solid fa-minus"></i></button>
+            <span id="mvQty">۱</span>
+            <button id="mvInc" aria-label="افزایش"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <button id="mvAdd" class="btn-primary ripple flex-1 justify-center">
+            <i class="fa-solid fa-cart-plus"></i><span>افزودن به سبد</span>
+          </button>
+          <button id="mvFav" class="btn-ghost !px-4" aria-label="علاقه‌مندی"><i class="fa-regular fa-heart"></i></button>
+          <button id="mvCmp" class="btn-ghost !px-4" aria-label="مقایسه"><i class="fa-solid fa-scale-balanced"></i></button>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2 text-[11.5px] text-[var(--muted)]">
+          <span class="trust-pill"><i class="fa-solid fa-shield-halved"></i> ضمانت اصالت</span>
+          <span class="trust-pill"><i class="fa-solid fa-rotate-left"></i> ۷ روز مرجوعی</span>
+          <span class="trust-pill"><i class="fa-solid fa-truck-fast"></i> ارسال سریع</span>
+          <button id="mvShare" class="trust-pill hover:!border-[var(--primary)]"><i class="fa-solid fa-share-nodes"></i> اشتراک</button>
+        </div>
+      </div>
+    </div>
+    <div class="px-6 sm:px-8 pb-8">
+      <div class="tabs" id="mvTabs">
+        <button data-tab="desc" class="on">توضیحات</button>
+        <button data-tab="spec">مشخصات فنی</button>
+        <button data-tab="rev">دیدگاه‌ها <span id="mvRevCount"></span></button>
+        <button data-tab="rel">کالاهای مرتبط</button>
+      </div>
+      <div class="tab-pane on" data-pane="desc">
+        <p id="mvDesc" class="text-sm leading-8 text-[var(--muted)]"></p>
+        <ul id="mvFeatures" class="mt-4 space-y-2 text-sm"></ul>
+      </div>
+      <div class="tab-pane" data-pane="spec">
+        <table class="spec-table" id="mvSpecs"></table>
+      </div>
+      <div class="tab-pane" data-pane="rev">
+        <div id="mvReviews"></div>
+        <div class="divider"></div>
+        <h4 class="font-extrabold mb-3">ثبت دیدگاه شما</h4>
+        <div class="rate-input mb-3" id="revStars">
+          <button data-star="1"><i class="fa-solid fa-star"></i></button>
+          <button data-star="2"><i class="fa-solid fa-star"></i></button>
+          <button data-star="3"><i class="fa-solid fa-star"></i></button>
+          <button data-star="4"><i class="fa-solid fa-star"></i></button>
+          <button data-star="5"><i class="fa-solid fa-star"></i></button>
+        </div>
+        <textarea id="revText" rows="3" class="input resize-none" placeholder="نظر خود را درباره این محصول بنویسید…"></textarea>
+        <button id="revSubmit" class="btn-ghost !py-2.5 mt-3 text-sm"><i class="fa-solid fa-paper-plane"></i> ثبت دیدگاه</button>
+      </div>
+      <div class="tab-pane" data-pane="rel">
+        <div class="rel-row" id="mvRelated"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPARE MODAL ===== -->
+<div id="cmpBackdrop" class="backdrop"></div>
+<div id="cmpModal" class="modal" role="dialog" aria-modal="true" aria-label="مقایسه محصولات">
+  <div class="modal__box modal__box--lg">
+    <button id="cmpClose" class="modal__close !bg-rose-500" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-pad">
+      <h3 class="text-xl font-black flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-nova-500"></i> مقایسه محصولات</h3>
+      <div class="overflow-x-auto mt-5"><table class="cmp-table" id="cmpTable"></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUTH MODAL ===== -->
+<div id="authBackdrop" class="backdrop"></div>
+<div id="authModal" class="modal" role="dialog" aria-modal="true" aria-label="حساب کاربری">
+  <div class="modal__box modal__box--sm">
+    <button id="authClose" class="modal__close !bg-rose-500" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-pad" id="authBox"></div>
+  </div>
+</div>
+
+<!-- ===== CHECKOUT MODAL ===== -->
+<div id="coBackdrop" class="backdrop"></div>
+<div id="coModal" class="modal" role="dialog" aria-modal="true" aria-label="تکمیل خرید">
+  <div class="modal__box modal__box--lg">
+    <button id="coClose" class="modal__close !bg-rose-500" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-pad" id="coBox"></div>
+  </div>
+</div>
+
+<!-- ===== TRACK MODAL ===== -->
+<div id="trackBackdrop" class="backdrop"></div>
+<div id="trackModal" class="modal" role="dialog" aria-modal="true" aria-label="پیگیری سفارش">
+  <div class="modal__box modal__box--sm">
+    <button id="trackClose" class="modal__close !bg-rose-500" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-pad">
+      <h3 class="text-xl font-black flex items-center gap-2"><i class="fa-solid fa-location-crosshairs text-nova-500"></i> پیگیری سفارش</h3>
+      <p class="text-sm text-[var(--muted)] mt-2 leading-7">کد پیگیری ۸ رقمی که بعد از ثبت سفارش دریافت کردی رو وارد کن:</p>
+      <input id="trackInput" class="input mt-4 text-center tracking-[.3em] font-mono" dir="ltr" placeholder="NV-000000" maxlength="10">
+      <button id="trackBtn" class="btn-primary ripple w-full mt-4 justify-center"><i class="fa-solid fa-magnifying-glass"></i> رهگیری</button>
+      <div id="trackResult" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BLOG READER ===== -->
+<div id="blogBackdrop" class="backdrop"></div>
+<div id="blogModal" class="modal" role="dialog" aria-modal="true" aria-label="خواندن مقاله">
+  <div class="modal__box modal__box--lg">
+    <button id="blogClose" class="modal__close" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
+    <div id="blogBody"></div>
+  </div>
+</div>
+
+<!-- ===== Toasts ===== -->
+<div id="toastBox" class="toast-box"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
