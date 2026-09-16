@@ -215,7 +215,7 @@ This project is proprietary software. All rights reserved.
 
 **Ali Mesri (علی مصری)**
 
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [@Alimesri05](https://github.com/Alimesri05)
 - Email: mesriali931@gmail.com
 
 ---
